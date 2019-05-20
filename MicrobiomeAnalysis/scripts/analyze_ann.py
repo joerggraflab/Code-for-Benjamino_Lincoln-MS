@@ -60,7 +60,7 @@ def main():
     elif len(sys.argv) > 1 and sys.argv[1].lower() == 'load':   #load from file
         heatmap = pickle.load(open(os.path.join(basedir, '../data/heatmaps/order.p'),'rb'))
     else:
-        print "Please input a valid argument to {0}, either `create` or `load`".format(sys.argv[0])
+        print "Please input a valid argument to {0}, either `create` or `load`.\nIf running for the first time, pick `create`".format(sys.argv[0])
         sys.exit(1)
     
     Heatmap = hmg.Heatmap(heatmap)
@@ -100,8 +100,8 @@ def main():
     g = an.create_fuzzy_hairball_fixed(Heatmap, save_path, 10, total_degree_dict, names_list)
 
     np.set_printoptions(precision=4)
-    print rmse
-    print bray_curtis
+    print "RMSE: {}\n".format(rmse)
+    print "BC: {}".format(bray_curtis)
 
 if __name__ == "__main__":
     main()

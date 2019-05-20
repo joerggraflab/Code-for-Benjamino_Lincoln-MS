@@ -17,12 +17,7 @@ data_parser.create_data_file(csv_location, data_file, name_file, bias=False, sca
 
 # Now create and train the network
 
-## Settings
-learning_rate = 0.1
-momentum = 0.95
-desired_error = 0.000001
-iterations_between_reports = 100
-maximum_iterations = 10000
+
 saved_net_file = "../data/networks/order_all_averaged_fixed.net"
 ## Grab the number of inputs, outputs (first line of .data in format #datapoints, inputs, outputs)
 f = open(data_file, 'r')
@@ -30,7 +25,12 @@ info = (f.readline()).split(' ')
 num_inputs = int(info[1])
 num_outputs = int(info[2])
 f.close()
-
+## Settings
+learning_rate = 0.1
+momentum = 0.95
+desired_error = 0.00001
+iterations_between_reports = 100
+maximum_iterations = 10000
 ## Determine number of hidden nodes
 num_hiddens1 = roundup(num_inputs*0.95)
 num_hiddens2 = roundup(num_inputs*0.85)

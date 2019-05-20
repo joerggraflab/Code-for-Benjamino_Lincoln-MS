@@ -8,13 +8,12 @@ from math import ceil as roundup
 import numpy as np
 from sklearn.metrics import mean_absolute_error
 
-def create_data_array(file_location):
+def create_data_array(file_location, num_envs):
     '''
     Creates datafile for vaidation purposes given a file_location
     '''
 
     # Set variables and init
-    num_food_sources = 6
     name_array = []
     dataset_count = 0
     out_start = 0
@@ -44,7 +43,7 @@ def create_data_array(file_location):
         i = 0
         while i < num_cols - 1:
             inputs = sub_array[i]
-            targets = sub_array[i+1][0:len(inputs)-num_food_sources]
+            targets = sub_array[i+1][0:len(inputs)-num_envs]
             data_array.append((inputs, targets))
             i += 1
     return data_array
@@ -66,7 +65,7 @@ def train_ann(training_set):
     learning_rate = 0.01
     momentum = 0.95
     desired_error = 0.0001
-    iterations_between_reports = 0
+    iterations_between_reports = 100
     maximum_iterations = 10000
     num_hiddens1 = roundup(num_inputs*0.95)
     num_hiddens2 = roundup(num_inputs*0.85)
@@ -136,8 +135,15 @@ def perform_validation(data_array):
     return rmse
 
 def main():
-    file_location = "/home/moria/Projects/Termite/data/Dataset/All_Averaged"
-    data_array = create_data_array(file_location)
+    file_location = "../data/Dataset/All_Averaged"
+    data_file = "../data/training/order_all_averaged_fixed.data"
+    f = open(data_file, 'r')
+    info = (f.readline()).split(' ')
+    num_inputs = int(info[1])
+    num_outputs = int(info[2])
+    num_envs = num_inputs - num_outputs
+    f.close()
+    data_array = create_data_array(file_location, num_envs)
     # For each iteration of validaton
     rmses = []
     # Loop 100 times, split up data into training and validation sets

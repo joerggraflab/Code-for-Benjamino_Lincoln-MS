@@ -8,14 +8,13 @@ import graph_tool as gt
 import scipy.spatial as sp
 import numpy as np
 import csv
-import igraph
 import os
 import sys
 from numpy import log2
 import csv
 
 def test_network(ann, inputs_location, save_path):
-    output_dir = '/home/moria/Projects/Termite/data/Dataset/Testing/Results/'
+    output_dir = '../data/Dataset/Testing/Results/'
     rmses = []
     bcs = []
     for root, dirs, filenames in os.walk(inputs_location):
@@ -114,7 +113,7 @@ def create_fuzzy_hairball_fixed(Heatmap, save_path, n, d, names):
     g = gt.Graph()
     g.add_vertex(int(len(Heatmap.heatmap)))
     file_name = "fuzzyhairball.png"
-    halo_numbers = [5, 11, 14, 16, 27, 33, 35, 45, 46, 50]
+    halo_numbers = []
     #Init vertex propertys
     vprop_label = g.new_vertex_property("string")
     vprop_vertex_color = g.new_vertex_property("string")

@@ -20,7 +20,7 @@ This project utilizes Python 2.7 with multiple 3rd-party libraries that must be 
 * [Matplotlib](http://matplotlib.org/)
 * [Graph Tools](http://graph-tool.skewed.de/)
 
-NOTE!: If you install pyfann from apt-get, you must install it as root in /usr/lib/pymodules/python2.7/pyfann/. Therefore, you must allow this directory to be run by non-root users. Easiest (but not most secure) way is sudo chmod 777 /usr/lib/pymodules/python2.7/pyfann/. You'll also have to append this directory to your $PYTHONPATH
+NOTE!: If you install pyfann from apt-get, you must install it as root in /usr/lib/pymodules/python2.7/pyfann/. Therefore, you must allow this directory to be run by non-root users. Easiest (but not most secure) way is sudo chmod 644 /usr/lib/pymodules/python2.7/pyfann/. You'll also have to append this directory to your $PYTHONPATH
 
 # How To
 
@@ -31,10 +31,16 @@ The methodology behind this project follows as such:
 4. Create the ANN, train on the .data file
 5. ANN Analysis to generate heat map and species-connectivity map
 
-In order to run, place each CSV you wish to train on in /data/Dataset/Averaged/Train/
-Each row and column is a number, associated with a certain species (or food source, in the last 6 rows/columns). You will need to specify the amount of food sources or environmental variables within each script file if you have more or less than 6
+In order to run with your own data:
+1. Place each CSV you wish to train on in data/Dataset/Averaged/Train/ - Make sure that all CSV's have the same headers and row names in the same order, and the non-taxa data (food sources, environmental variables, etc) are the last rows in the CSV files.
+2. Edit lib/python/data_parser.py:39 and change '6' to the number of food sources/environmental variables in your dataset(s)
+3. For each CSV, take out a random timepoint or two. Split the CSV into 2 CSV's and put them into data/Dataset/Tests/.   Put one of the random timepoints taken out, as well as the timepoint data ahead of it, into data/Dataset/Testing/Inputs/inputs.csv, transposed, without any headers or labels.
+4. If you wish to perform 10x cross validation on your dataset to test parameters, edit scripts/10foldxval.py:65-71,90-91 and run it
+5. Edit parameters in scripts/ann.py:30-37,44-45 to your liking.
+6. cd into scripts, and run `python ann.py`
+7. Run `python analyze_ann.py create`
 
-First run ann.py to create the network. Once sufficiently trained, you can perform n-fold cross validation with the cross validation script, or analyze the network with analyze_ann.py with either the argument 'create' or 'load', depending if you want to create a new analysis or load a previous one to explore.
+In the heatmap, each row and column is a number, associated with a certain species (or food source, in the last 6 rows/columns).
 
 # TODO
 1. Refactor codebase
